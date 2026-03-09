@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo de Ganadores - TV Zamora</title>
+    <meta name="description" content="Sorteo en vivo de ganadores de viajes de TV Zamora - Comunicación Total">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Particles background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="main-container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="logotvz.png" alt="TV Zamora - Comunicación Total" id="logo">
+            </div>
+            <div class="date-display" id="date-display"></div>
+        </header>
+
+        <!-- Sorteo Badge -->
+        <div class="sorteo-badge" id="sorteo-badge">
+            Sorteo Nº <span id="sorteo-number">1</span>
+        </div>
+
+        <!-- Winner Card -->
+        <div class="winner-card-wrapper">
+            <span class="star">✦</span>
+            <span class="star">✦</span>
+            <span class="star">✦</span>
+            <div class="winner-card animate-in" id="winner-card">
+                <p class="winner-ci" id="winner-ci">CI: V-18.456.789 | Caracas</p>
+                <h1 class="winner-name" id="winner-name" data-name="María González">María González</h1>
+                <div class="prize-badge" id="prize-badge">
+                    <span class="prize-icon">🏆</span>
+                    <span>PREMIO: <span id="prize-text">Viaje a Margarita</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Counter Dots -->
+        <div class="counter-indicator" id="counter-indicator"></div>
+
+        <!-- Next Button -->
+        <button class="next-btn" id="next-btn" onclick="nextSorteo()">
+            Siguiente Sorteo
+        </button>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
