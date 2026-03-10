@@ -17,7 +17,28 @@
     <!-- Confetti -->
     <canvas id="confetti-canvas"></canvas>
 
-    <div class="main-container">
+    <!-- ========== COVER / PORTADA ========== -->
+    <div class="cover-screen" id="cover-screen">
+        <div class="cover-content">
+            <div class="cover-logo-wrapper">
+                <img src="logotvz.png" alt="TV Zamora - Comunicación Total" class="cover-logo">
+                <div class="cover-logo-ring"></div>
+            </div>
+            <h1 class="cover-title">Sorteo de Viajes</h1>
+            <p class="cover-subtitle">¡Descubre a los ganadores!</p>
+            <div class="cover-date" id="cover-date"></div>
+            <button class="cover-btn" id="cover-btn" onclick="startRaffle()">
+                <span class="cover-btn-icon">🎉</span>
+                Comenzar Sorteo
+            </button>
+            <div class="cover-decoration">
+                <span>✦</span><span>✦</span><span>✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MAIN SORTEO ========== -->
+    <div class="main-container hidden" id="main-container">
 
         <!-- Header -->
         <header class="header">
@@ -38,22 +59,34 @@
             <span class="star">✦</span>
             <span class="star">✦</span>
             <div class="winner-card animate-in" id="winner-card">
-                <p class="winner-ci" id="winner-ci">CI: V-18.456.789 | Caracas</p>
-                <h1 class="winner-name" id="winner-name" data-name="María González">María González</h1>
-                <div class="prize-badge" id="prize-badge">
-                    <span class="prize-icon">🏆</span>
-                    <span>PREMIO: <span id="prize-text">Viaje a Margarita</span></span>
+                <!-- Spinner (shown while loading) -->
+                <div class="spinner-container" id="spinner-container">
+                    <div class="spinner-ring"></div>
+                    <p class="spinner-text">Seleccionando ganador...</p>
+                </div>
+                <!-- Winner info (hidden until reveal) -->
+                <div class="winner-info" id="winner-info" style="display: none;">
+                    <p class="winner-ci" id="winner-ci"></p>
+                    <h1 class="winner-name" id="winner-name" data-name=""></h1>
+                    <div class="prize-badge" id="prize-badge">
+                        <span class="prize-icon">🏆</span>
+                        <span>PREMIO: <span id="prize-text"></span></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Counter Dots -->
-        <div class="counter-indicator" id="counter-indicator"></div>
 
         <!-- Next Button -->
         <button class="next-btn" id="next-btn" onclick="nextSorteo()">
             Siguiente Sorteo
         </button>
+
+        <!-- ========== WINNERS LIST (shown at end) ========== -->
+        <div class="winners-list-container hidden" id="winners-list-container">
+            <h2 class="winners-list-title">🏆 Todos los Ganadores</h2>
+            <div class="winners-list" id="winners-list"></div>
+        </div>
 
     </div>
 

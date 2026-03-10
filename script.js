@@ -19,6 +19,33 @@ const winners = [
 
 let currentIndex = 0;
 let isAnimating = false;
+let revealedWinners = [];
+
+// ---- LocalStorage Persistence ----
+const STORAGE_KEY = 'tvzamora_sorteo_progress';
+
+function saveProgress() {
+  const data = {
+    currentIndex: currentIndex,
+    revealed: revealedWinners,
+    started: true
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch (e) { /* ignore */ }
+  return null;
+}
+
+function clearProgress() {
+  localStorage.removeItem(STORAGE_KEY);
+}
 
 // ---- Date Display ----
 function setDate() {
@@ -30,140 +57,226 @@ function setDate() {
   const day = String(now.getDate()).padStart(2, '0');
   const month = months[now.getMonth()];
   const year = now.getFullYear();
-  document.getElementById('date-display').textContent = `${day} de ${month}, ${year}`;
+  const dateStr = `${day} de ${month}, ${year}`;
+  const dateEl = document.getElementById('date-display');
+  const coverDateEl = document.getElementById('cover-date');
+  if (dateEl) dateEl.textContent = dateStr;
+  if (coverDateEl) coverDateEl.textContent = dateStr;
 }
 
-// ---- Counter Dots ----
-function initCounterDots() {
-  const container = document.getElementById('counter-indicator');
-  container.innerHTML = '';
-  winners.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'counter-dot' + (i === 0 ? ' active' : '');
-    container.appendChild(dot);
-  });
+// ---- Cover / Portada ----
+function startRaffle() {
+  const cover = document.getElementById('cover-screen');
+  const main = document.getElementById('main-container');
+
+  // Animate cover out
+  cover.classList.add('cover-exit');
+
+  setTimeout(() => {
+    cover.classList.add('hidden');
+    main.classList.remove('hidden');
+    main.classList.add('fade-in');
+
+    // Show spinner for first winner
+    showSpinner();
+    setTimeout(() => {
+      revealWinner(winners[0], 0);
+    }, 1800);
+  }, 600);
 }
 
-function updateCounterDots() {
-  const dots = document.querySelectorAll('.counter-dot');
-  dots.forEach((dot, i) => {
-    dot.classList.remove('active', 'done');
-    if (i < currentIndex) dot.classList.add('done');
-    if (i === currentIndex) dot.classList.add('active');
-  });
+function resumeRaffle(savedData) {
+  const cover = document.getElementById('cover-screen');
+  const main = document.getElementById('main-container');
+
+  cover.classList.add('hidden');
+  main.classList.remove('hidden');
+
+  currentIndex = savedData.currentIndex;
+  revealedWinners = savedData.revealed || [];
+
+  if (currentIndex >= winners.length) {
+    // All winners were already shown — show the last one and the list
+    const lastIdx = winners.length - 1;
+    revealWinnerInstant(winners[lastIdx], lastIdx);
+    checkCompletion();
+  } else {
+    // Show the current winner instantly (no animation)
+    revealWinnerInstant(winners[currentIndex], currentIndex);
+
+    if (currentIndex >= winners.length - 1) {
+      checkCompletion();
+    }
+  }
 }
 
-// ---- Show Winner ----
-function displayWinner(winner, index) {
-  const card = document.getElementById('winner-card');
+// ---- Spinner ----
+function showSpinner() {
+  const spinnerEl = document.getElementById('spinner-container');
+  const winnerInfoEl = document.getElementById('winner-info');
+  spinnerEl.style.display = 'flex';
+  winnerInfoEl.style.display = 'none';
+}
+
+// ---- Reveal Winner (after spinner, with animations) ----
+function revealWinner(winner, index) {
+  const spinnerEl = document.getElementById('spinner-container');
+  const winnerInfoEl = document.getElementById('winner-info');
   const nameEl = document.getElementById('winner-name');
   const ciEl = document.getElementById('winner-ci');
   const prizeEl = document.getElementById('prize-text');
   const badgeNum = document.getElementById('sorteo-number');
 
-  // Update sorteo number
   badgeNum.textContent = index + 1;
 
-  // Reset animations by removing/re-adding classes
+  // Hide spinner, show winner info
+  spinnerEl.style.display = 'none';
+  winnerInfoEl.style.display = 'block';
+
+  // Set winner data
+  nameEl.textContent = winner.name;
+  nameEl.setAttribute('data-name', winner.name);
+  ciEl.textContent = `CI: ${winner.ci} | ${winner.city}`;
+  prizeEl.textContent = winner.prize;
+
+  // Reset and trigger animations
   ciEl.style.animation = 'none';
   nameEl.style.animation = 'none';
   document.getElementById('prize-badge').style.animation = 'none';
+  void ciEl.offsetWidth;
 
-  // Start shuffle effect
-  nameEl.classList.add('shuffling');
-  nameEl.style.animation = '';
+  ciEl.style.animation = 'fadeSlideUp 0.5s ease forwards';
+  nameEl.style.animation = 'nameReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+  document.getElementById('prize-badge').style.animation = 'prizePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards';
+
+  // Launch confetti
+  launchConfetti();
+
+  // Track revealed winner
+  if (!revealedWinners.includes(index)) {
+    revealedWinners.push(index);
+  }
+  saveProgress();
+
+  // Allow next click
+  setTimeout(() => {
+    isAnimating = false;
+  }, 800);
+}
+
+// ---- Reveal Winner Instantly (for resume, no animations) ----
+function revealWinnerInstant(winner, index) {
+  const spinnerEl = document.getElementById('spinner-container');
+  const winnerInfoEl = document.getElementById('winner-info');
+  const nameEl = document.getElementById('winner-name');
+  const ciEl = document.getElementById('winner-ci');
+  const prizeEl = document.getElementById('prize-text');
+  const badgeNum = document.getElementById('sorteo-number');
+
+  badgeNum.textContent = index + 1;
+  spinnerEl.style.display = 'none';
+  winnerInfoEl.style.display = 'block';
+
+  nameEl.textContent = winner.name;
+  nameEl.setAttribute('data-name', winner.name);
+  ciEl.textContent = `CI: ${winner.ci} | ${winner.city}`;
+  prizeEl.textContent = winner.prize;
+
+  // Show immediately without animations
+  ciEl.style.animation = 'none';
+  ciEl.style.opacity = '1';
+  nameEl.style.animation = 'none';
   nameEl.style.opacity = '1';
-
-  // Shuffle through random names
-  const shuffleNames = winners.map(w => w.name);
-  let shuffleCount = 0;
-  const maxShuffles = 20;
-  const shuffleInterval = setInterval(() => {
-    const randomName = shuffleNames[Math.floor(Math.random() * shuffleNames.length)];
-    nameEl.textContent = randomName;
-    shuffleCount++;
-
-    if (shuffleCount >= maxShuffles) {
-      clearInterval(shuffleInterval);
-      nameEl.classList.remove('shuffling');
-
-      // Reveal real winner
-      nameEl.textContent = winner.name;
-      nameEl.setAttribute('data-name', winner.name);
-      ciEl.textContent = `CI: ${winner.ci} | ${winner.city}`;
-      prizeEl.textContent = winner.prize;
-
-      // Trigger reveal animations
-      nameEl.style.animation = 'nameReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-      ciEl.style.animation = 'fadeSlideUp 0.5s ease forwards';
-      document.getElementById('prize-badge').style.animation = 'prizePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-
-      // Launch confetti
-      launchConfetti();
-
-      // Allow next click
-      setTimeout(() => {
-        isAnimating = false;
-      }, 500);
-    }
-  }, 60);
+  document.getElementById('prize-badge').style.animation = 'none';
+  document.getElementById('prize-badge').style.opacity = '1';
 }
 
 // ---- Next Sorteo ----
 function nextSorteo() {
   if (isAnimating) return;
 
-  // If we've shown the last winner, do nothing or reset
-  if (currentIndex >= winners.length) {
+  // If all winners have been shown, show the list
+  if (currentIndex >= winners.length - 1 && revealedWinners.length >= winners.length) {
+    showWinnersList();
     return;
   }
 
   isAnimating = true;
+  currentIndex++;
+
+  if (currentIndex >= winners.length) {
+    isAnimating = false;
+    showWinnersList();
+    return;
+  }
+
   const card = document.getElementById('winner-card');
 
-  if (currentIndex > 0) {
-    // Animate out current card
-    card.classList.remove('animate-in');
-    card.classList.add('animate-out');
+  // Animate out current card
+  card.classList.remove('animate-in');
+  card.classList.add('animate-out');
 
+  setTimeout(() => {
+    card.classList.remove('animate-out');
+    card.classList.add('animate-in');
+
+    // Show spinner
+    showSpinner();
+
+    // After spinner animation, reveal winner
     setTimeout(() => {
-      card.classList.remove('animate-out');
-      card.classList.add('animate-in');
-      displayWinner(winners[currentIndex], currentIndex);
-      updateCounterDots();
-      currentIndex++;
-      checkCompletion();
-    }, 400);
-  } else {
-    // First winner is already displayed, advance to next
-    currentIndex++;
-    if (currentIndex < winners.length) {
-      card.classList.remove('animate-in');
-      card.classList.add('animate-out');
+      revealWinner(winners[currentIndex], currentIndex);
 
-      setTimeout(() => {
-        card.classList.remove('animate-out');
-        card.classList.add('animate-in');
-        displayWinner(winners[currentIndex], currentIndex);
-        updateCounterDots();
-        currentIndex++;
+      if (currentIndex >= winners.length - 1) {
         checkCompletion();
-      }, 400);
-    } else {
-      isAnimating = false;
-      checkCompletion();
-    }
-  }
+      }
+    }, 1800);
+  }, 400);
 }
 
 function checkCompletion() {
-  if (currentIndex >= winners.length) {
-    const btn = document.getElementById('next-btn');
-    btn.textContent = '¡Sorteo Completo!';
-    btn.style.background = 'linear-gradient(135deg, #00c853, #00e676)';
-    btn.style.boxShadow = '0 8px 30px rgba(0, 200, 83, 0.4)';
-    btn.style.cursor = 'default';
-  }
+  const btn = document.getElementById('next-btn');
+  btn.textContent = 'Ver Todos los Ganadores';
+  btn.style.background = 'linear-gradient(135deg, #ffd700, #ffab00)';
+  btn.style.boxShadow = '0 8px 30px rgba(255, 215, 0, 0.4)';
+  btn.style.color = '#0a1a3f';
+}
+
+// ---- Winners List ----
+function showWinnersList() {
+  const listContainer = document.getElementById('winners-list-container');
+  const listEl = document.getElementById('winners-list');
+  const btn = document.getElementById('next-btn');
+
+  btn.style.display = 'none';
+
+  listContainer.classList.remove('hidden');
+
+  listEl.innerHTML = '';
+  winners.forEach((w, i) => {
+    const item = document.createElement('div');
+    item.className = 'winners-list-item';
+    item.style.animationDelay = `${i * 0.1}s`;
+    item.innerHTML = `
+      <div class="wl-number">${i + 1}</div>
+      <div class="wl-info">
+        <div class="wl-name">${w.name}</div>
+        <div class="wl-details">${w.ci} | ${w.city}</div>
+      </div>
+      <div class="wl-prize">
+        <span class="wl-prize-icon">🏆</span>
+        ${w.prize}
+      </div>
+    `;
+    listEl.appendChild(item);
+  });
+
+  // Save that sorteo is complete
+  saveProgress();
+
+  // Final confetti
+  setTimeout(() => launchConfetti(), 300);
+  setTimeout(() => launchConfetti(), 800);
 }
 
 // ---- Confetti System ----
@@ -178,15 +291,14 @@ function resizeConfetti() {
 }
 
 function launchConfetti() {
-  confettiParticles = [];
   const colors = ['#0055ff', '#00a5a8', '#c8102e', '#ffd700', '#ff1744', '#2979ff', '#00d4d8', '#ffffff'];
-  
+
   for (let i = 0; i < 120; i++) {
     confettiParticles.push({
-      x: window.innerWidth / 2 + (Math.random() - 0.5) * 200,
+      x: window.innerWidth / 2 + (Math.random() - 0.5) * 300,
       y: window.innerHeight / 2,
-      vx: (Math.random() - 0.5) * 18,
-      vy: (Math.random() - 1) * 18 - 5,
+      vx: (Math.random() - 0.5) * 20,
+      vy: (Math.random() - 1) * 20 - 5,
       color: colors[Math.floor(Math.random() * colors.length)],
       size: Math.random() * 8 + 4,
       rotation: Math.random() * 360,
@@ -265,7 +377,7 @@ function initParticles() {
       speedY: (Math.random() - 0.5) * 0.4,
       opacity: Math.random() * 0.5 + 0.1,
       pulse: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.7 ? '#00a5a8' : (Math.random() > 0.5 ? '#2979ff' : '#ffffff')
+      color: Math.random() > 0.7 ? '#0055ff' : (Math.random() > 0.5 ? '#0a1a3f' : '#00a5a8')
     });
   }
 }
@@ -278,7 +390,6 @@ function animateParticles() {
     p.y += p.speedY;
     p.pulse += 0.02;
 
-    // Wrap around
     if (p.x < 0) p.x = particlesCanvas.width;
     if (p.x > particlesCanvas.width) p.x = 0;
     if (p.y < 0) p.y = particlesCanvas.height;
@@ -286,20 +397,12 @@ function animateParticles() {
 
     const pulseOpacity = p.opacity + Math.sin(p.pulse) * 0.15;
 
-    // Glow
-    particlesCtx.beginPath();
-    const gradient = particlesCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
-    gradient.addColorStop(0, p.color.replace(')', `, ${pulseOpacity})`).replace('rgb', 'rgba').replace('#', ''));
-    gradient.addColorStop(1, 'transparent');
-
-    // Simple glow with color
     particlesCtx.globalAlpha = pulseOpacity;
     particlesCtx.fillStyle = p.color;
     particlesCtx.beginPath();
     particlesCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     particlesCtx.fill();
 
-    // Outer glow
     particlesCtx.globalAlpha = pulseOpacity * 0.3;
     particlesCtx.beginPath();
     particlesCtx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
@@ -308,7 +411,6 @@ function animateParticles() {
     particlesCtx.globalAlpha = 1;
   });
 
-  // Draw connection lines between nearby particles
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
       const dx = particles[i].x - particles[j].x;
@@ -334,11 +436,14 @@ function init() {
   resizeParticles();
   resizeConfetti();
   initParticles();
-  initCounterDots();
   animateParticles();
 
-  // Display first winner
-  displayWinner(winners[0], 0);
+  // Check for saved progress
+  const saved = loadProgress();
+  if (saved && saved.started) {
+    resumeRaffle(saved);
+  }
+  // Otherwise the cover screen is shown by default
 }
 
 window.addEventListener('resize', () => {
@@ -346,5 +451,4 @@ window.addEventListener('resize', () => {
   resizeConfetti();
 });
 
-// Start
 window.addEventListener('DOMContentLoaded', init);
