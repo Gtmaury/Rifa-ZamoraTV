@@ -290,34 +290,37 @@ function showWinnersList() {
   listContainer.classList.remove('hidden');
   listEl.innerHTML = '';
 
+  // Activate Flexbox side-by-side layout on main container
+  document.querySelector('.main-container').classList.add('final-layout-active');
+
   // Reorder for the final list: Trips first (indices 13, 14, 15), then Tablets (0 to 12)
   const orderedForList = [
     winners[13], winners[14], winners[15],
     ...winners.slice(0, 13)
   ];
 
-  // Use requestAnimationFrame so the browser unhides the container first
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      orderedForList.forEach((w, i) => {
-        const item = document.createElement('div');
-        item.className = 'winners-list-item';
-        item.style.animationDelay = `${i * 0.05}s`;
-        
-        item.innerHTML = `
-          <div class="wl-number">${i + 1}</div>
-          <div class="wl-info">
-            <div class="wl-name">${w.name}</div>
-            <div class="wl-details">${w.ci} | ${w.city}</div>
-          </div>
-          <div class="wl-prize">
-            <span class="wl-prize-icon">🏆</span>
-            ${w.prize}
-          </div>
-        `;
-        listEl.appendChild(item);
-      });
-    }, 50); // Small 50ms buffer for layout calculations
+  /* 
+    DOM rendering loop.
+    No timeouts needed because CSS Flexbox evaluates layout sizes 
+    accurately in a single pass without overlapping grids.
+  */
+  orderedForList.forEach((w, i) => {
+    const item = document.createElement('div');
+    item.className = 'winners-list-item';
+    item.style.animationDelay = `${i * 0.05}s`;
+    
+    item.innerHTML = `
+      <div class="wl-number">${i + 1}</div>
+      <div class="wl-info">
+        <div class="wl-name">${w.name}</div>
+        <div class="wl-details">${w.ci} | ${w.city}</div>
+      </div>
+      <div class="wl-prize">
+        <span class="wl-prize-icon">🏆</span>
+        ${w.prize}
+      </div>
+    `;
+    listEl.appendChild(item);
   });
 
   // Save that sorteo is complete
