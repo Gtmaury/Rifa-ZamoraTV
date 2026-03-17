@@ -640,17 +640,37 @@ body.bg-tablet .decor-tablet {
 }
 
 /* Stagger the animation delays for a natural feel */
-.decor-pos-1 .decor-svg { animation-delay: 0s !important; }
-.decor-pos-2 .decor-svg { animation-delay: 0.5s !important; }
-.decor-pos-3 .decor-svg { animation-delay: 1.0s !important; }
-.decor-pos-4 .decor-svg { animation-delay: 0.3s !important; }
-.decor-pos-5 .decor-svg { animation-delay: 0.8s !important; }
-.decor-pos-6 .decor-svg { animation-delay: 1.3s !important; }
+.decor-pos-1 .decor-svg {
+  animation-delay: 0s !important;
+}
+
+.decor-pos-2 .decor-svg {
+  animation-delay: 0.5s !important;
+}
+
+.decor-pos-3 .decor-svg {
+  animation-delay: 1.0s !important;
+}
+
+.decor-pos-4 .decor-svg {
+  animation-delay: 0.3s !important;
+}
+
+.decor-pos-5 .decor-svg {
+  animation-delay: 0.8s !important;
+}
+
+.decor-pos-6 .decor-svg {
+  animation-delay: 1.3s !important;
+}
 
 @keyframes decorFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-15px);
   }
@@ -1009,26 +1029,18 @@ body.bg-tablet .decor-tablet {
 
 /* =============================================
    WINNERS LIST (Final)
-  /* ========== WINNERS LIST (shown at end) ========== */
-.winners-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 900px;
-  animation: listReveal 0.8s ease forwards;
-  position: relative;
-  z-index: 20;
+   ============================================= */
+
 /* Dynamic Flex Layout for preventing overlap automatically */
 .main-container.final-layout-active {
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
   justify-content: center;
-  gap: 30px; 
+  gap: 30px;
   padding: 10px 40px;
   width: 100% !important;
-  max-width: 100% !important; /* Break the 700px limit */
+  max-width: 100% !important;
   height: 100vh;
   min-height: 100vh;
   overflow: hidden;
@@ -1042,28 +1054,42 @@ body.bg-tablet .decor-tablet {
   padding: 0;
   width: auto;
   z-index: 100;
-  flex: 0 0 30%; /* Take up to 30% of width for the logo area */
+  flex: 0 0 30%;
   display: flex;
   justify-content: center;
 }
+
 .header.header-final-list .date-display {
-  display: none;
+  display: none !important; /* Totalmente oculto en la final */
 }
+
 .header.header-final-list .logo-container img {
   height: auto;
-  max-height: 280px; /* Bigger logo but constrained */
+  max-height: 280px;
   width: auto;
   max-width: 350px;
   object-fit: contain;
   filter: drop-shadow(0 4px 15px rgba(0, 85, 255, 0.2));
 }
 
+.winners-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  animation: listReveal 0.8s ease forwards;
+  position: relative;
+  z-index: 20;
+  margin-top: -40px; /* SHIFT UP as requested */
+}
+
 .winners-list-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 2.2rem; /* Slightly smaller to save space */
+  font-size: 2.2rem;
   font-weight: 800;
   color: var(--blue-dark);
-  margin-bottom: 15px; /* Tighter margin */
+  margin-bottom: 10px; /* Tighter */
   text-align: center;
   position: relative;
 }
