@@ -3,24 +3,26 @@
    Lógica de sorteo, animaciones y efectos
    ============================================ */
 
-// ---- Winners Data ----
+// Winners data
 const winners = [
-  { name: "María González", ci: "V-18.456.789", city: "Puerto Ordaz", prize: "Viaje a Margarita" },
-  { name: "Carlos Mendoza", ci: "V-22.789.012", city: "San Felix", prize: "Viaje a Margarita" },
-  { name: "Ana Rodríguez", ci: "V-19.234.567", city: "Upata", prize: "Viaje a Margarita" },
-  { name: "Lucía Fernández", ci: "V-20.331.002", city: "Guasipati", prize: "Tablet TCL" },
-  { name: "Pedro Ramírez", ci: "V-21.567.890", city: "Tumeremo", prize: "Tablet TCL" },
-  { name: "Sofía Martínez", ci: "V-17.890.123", city: "Santa Elena", prize: "Tablet TCL" },
-  { name: "Diego Herrera", ci: "V-23.123.456", city: "Ciudad Bolivar", prize: "Tablet TCL" },
-  { name: "Valentina López", ci: "V-20.456.789", city: "Soledad", prize: "Tablet TCL" },
-  { name: "Andrés Torres", ci: "V-19.789.012", city: "Core 8", prize: "Tablet TCL" },
-  { name: "Isabella Díaz", ci: "V-24.012.345", city: "Caicara del Orinoco", prize: "Tablet TCL" },
-  { name: "Gabriel Romero", ci: "V-21.432.198", city: "Santa Barbara de Barinas", prize: "Tablet TCL" },
-  { name: "Mariana Castillo", ci: "V-19.876.543", city: "Puerto Ordaz", prize: "Tablet TCL" },
-  { name: "Jorge Silva", ci: "V-22.112.334", city: "San Felix", prize: "Tablet TCL" },
-  { name: "Elena Gómez", ci: "V-18.998.776", city: "Upata", prize: "Tablet TCL" },
-  { name: "Ricardo Vargas", ci: "V-20.554.332", city: "Ciudad Bolivar", prize: "Tablet TCL" },
-  { name: "Camila Ruiz", ci: "V-23.887.665", city: "Santa Elena", prize: "Tablet TCL" }
+  // The 13 tablet winners first
+  { name: 'Lucía Fernández', ci: 'V-20.331.002', city: 'Guasipati', prize: 'Tablet TCL' },
+  { name: 'Ana Martínez', ci: 'V-22.112.334', city: 'Tumeremo', prize: 'Tablet TCL' },
+  { name: 'Pedro Sánchez', ci: 'V-15.678.901', city: 'Santa Elena', prize: 'Tablet TCL' },
+  { name: 'Laura Gómez', ci: 'V-25.432.198', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
+  { name: 'Kevin Díaz', ci: 'V-21.876.543', city: 'Soledad', prize: 'Tablet TCL' },
+  { name: 'Sofía Romero', ci: 'V-26.554.332', city: 'Core 8', prize: 'Tablet TCL' },
+  { name: 'Diego Torres', ci: 'V-19.223.445', city: 'Caicara del Orinoco', prize: 'Tablet TCL' },
+  { name: 'Valentina Silva', ci: 'V-24.667.889', city: 'Santa Barbara de Barinas', prize: 'Tablet TCL' },
+  { name: 'Andrés López', ci: 'V-17.555.666', city: 'Puerto Ordaz', prize: 'Tablet TCL' },
+  { name: 'Isabella Castro', ci: 'V-28.999.000', city: 'San Felix', prize: 'Tablet TCL' },
+  { name: 'Mateo Herrera', ci: 'V-20.444.555', city: 'Upata', prize: 'Tablet TCL' },
+  { name: 'Camila Ruiz', ci: 'V-23.887.665', city: 'Santa Elena', prize: 'Tablet TCL' },
+  { name: 'Javier Morales', ci: 'V-16.333.222', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
+  // Finally, the 3 trip winners
+  { name: 'María González', ci: 'V-18.456.789', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
+  { name: 'Carlos Mendoza', ci: 'V-22.789.012', city: 'San Felix', prize: 'Viaje a Margarita' },
+  { name: 'Luis Pérez', ci: 'V-14.567.890', city: 'Upata', prize: 'Viaje a Margarita' }
 ];
 
 let currentIndex = 0;
@@ -266,35 +268,56 @@ function checkCompletion() {
 }
 
 // ---- Winners List ----
+// ---- Winners List ----
 function showWinnersList() {
   const listContainer = document.getElementById('winners-list-container');
   const listEl = document.getElementById('winners-list');
   const btn = document.getElementById('next-btn');
+  const winnerCardWrapper = document.querySelector('.winner-card-wrapper');
+  const sorteoBadge = document.getElementById('sorteo-badge');
 
   btn.style.display = 'none';
 
+  // Hide the individual winner card and badge so they don't repeat on the final screen
+  if (winnerCardWrapper) winnerCardWrapper.style.display = 'none';
+  if (sorteoBadge) sorteoBadge.style.display = 'none';
+
   // HIDE SVG DECORATIONS during the final winners list
   document.body.classList.remove('bg-viaje', 'bg-tablet');
+  // keep header logo big
+  document.querySelector('.header').classList.add('header-final-list');
 
   listContainer.classList.remove('hidden');
-
   listEl.innerHTML = '';
-  winners.forEach((w, i) => {
-    const item = document.createElement('div');
-    item.className = 'winners-list-item';
-    item.style.animationDelay = `${i * 0.1}s`;
-    item.innerHTML = `
-      <div class="wl-number">${i + 1}</div>
-      <div class="wl-info">
-        <div class="wl-name">${w.name}</div>
-        <div class="wl-details">${w.ci} | ${w.city}</div>
-      </div>
-      <div class="wl-prize">
-        <span class="wl-prize-icon">🏆</span>
-        ${w.prize}
-      </div>
-    `;
-    listEl.appendChild(item);
+
+  // Reorder for the final list: Trips first (indices 13, 14, 15), then Tablets (0 to 12)
+  const orderedForList = [
+    winners[13], winners[14], winners[15],
+    ...winners.slice(0, 13)
+  ];
+
+  // Use requestAnimationFrame so the browser unhides the container first
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      orderedForList.forEach((w, i) => {
+        const item = document.createElement('div');
+        item.className = 'winners-list-item';
+        item.style.animationDelay = `${i * 0.05}s`;
+        
+        item.innerHTML = `
+          <div class="wl-number">${i + 1}</div>
+          <div class="wl-info">
+            <div class="wl-name">${w.name}</div>
+            <div class="wl-details">${w.ci} | ${w.city}</div>
+          </div>
+          <div class="wl-prize">
+            <span class="wl-prize-icon">🏆</span>
+            ${w.prize}
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+    }, 50); // Small 50ms buffer for layout calculations
   });
 
   // Save that sorteo is complete
@@ -302,9 +325,8 @@ function showWinnersList() {
 
   // Final confetti
   setTimeout(() => launchConfetti(), 300);
-  setTimeout(() => launchConfetti(), 800);
+  setInterval(triggerConfettiBurst, 3000);
 }
-
 // ---- Confetti System ----
 const confettiCanvas = document.getElementById('confetti-canvas');
 const confettiCtx = confettiCanvas.getContext('2d');
