@@ -5,16 +5,22 @@
 
 // ---- Winners Data ----
 const winners = [
-  { name: "María González", ci: "V-18.456.789", city: "Caracas", prize: "Viaje a Margarita" },
-  { name: "Carlos Mendoza", ci: "V-22.789.012", city: "Valencia", prize: "Viaje a Los Roques" },
-  { name: "Ana Rodríguez", ci: "V-19.234.567", city: "Maracaibo", prize: "Viaje a Mérida" },
-  { name: "Lucía Fernández", ci: "V-20.331.002", city: "Barquisimeto", prize: "Viaje a Mérida" },
-  { name: "Pedro Ramírez", ci: "V-21.567.890", city: "Barinas", prize: "Viaje a Canaima" },
-  { name: "Sofía Martínez", ci: "V-17.890.123", city: "Maturín", prize: "Viaje a Margarita" },
-  { name: "Diego Herrera", ci: "V-23.123.456", city: "San Cristóbal", prize: "Viaje a Los Roques" },
-  { name: "Valentina López", ci: "V-20.456.789", city: "Puerto La Cruz", prize: "Viaje a Mérida" },
-  { name: "Andrés Torres", ci: "V-19.789.012", city: "Cumaná", prize: "Viaje a Canaima" },
-  { name: "Isabella Díaz", ci: "V-24.012.345", city: "Ciudad Bolívar", prize: "Viaje a Margarita" }
+  { name: "María González", ci: "V-18.456.789", city: "Puerto Ordaz", prize: "Viaje a Margarita" },
+  { name: "Carlos Mendoza", ci: "V-22.789.012", city: "San Felix", prize: "Viaje a Margarita" },
+  { name: "Ana Rodríguez", ci: "V-19.234.567", city: "Upata", prize: "Viaje a Margarita" },
+  { name: "Lucía Fernández", ci: "V-20.331.002", city: "Guasipati", prize: "Tablet TCL" },
+  { name: "Pedro Ramírez", ci: "V-21.567.890", city: "Tumeremo", prize: "Tablet TCL" },
+  { name: "Sofía Martínez", ci: "V-17.890.123", city: "Santa Elena", prize: "Tablet TCL" },
+  { name: "Diego Herrera", ci: "V-23.123.456", city: "Ciudad Bolivar", prize: "Tablet TCL" },
+  { name: "Valentina López", ci: "V-20.456.789", city: "Soledad", prize: "Tablet TCL" },
+  { name: "Andrés Torres", ci: "V-19.789.012", city: "Core 8", prize: "Tablet TCL" },
+  { name: "Isabella Díaz", ci: "V-24.012.345", city: "Caicara del Orinoco", prize: "Tablet TCL" },
+  { name: "Gabriel Romero", ci: "V-21.432.198", city: "Santa Barbara de Barinas", prize: "Tablet TCL" },
+  { name: "Mariana Castillo", ci: "V-19.876.543", city: "Puerto Ordaz", prize: "Tablet TCL" },
+  { name: "Jorge Silva", ci: "V-22.112.334", city: "San Felix", prize: "Tablet TCL" },
+  { name: "Elena Gómez", ci: "V-18.998.776", city: "Upata", prize: "Tablet TCL" },
+  { name: "Ricardo Vargas", ci: "V-20.554.332", city: "Ciudad Bolivar", prize: "Tablet TCL" },
+  { name: "Camila Ruiz", ci: "V-23.887.665", city: "Santa Elena", prize: "Tablet TCL" }
 ];
 
 let currentIndex = 0;
@@ -129,6 +135,14 @@ function revealWinner(winner, index) {
 
   badgeNum.textContent = index + 1;
 
+  // Set page background based on prize type
+  document.body.classList.remove('bg-viaje', 'bg-tablet');
+  if (winner.prize.toLowerCase().includes('viaje')) {
+    document.body.classList.add('bg-viaje');
+  } else {
+    document.body.classList.add('bg-tablet');
+  }
+
   // Hide spinner, show winner info
   spinnerEl.style.display = 'none';
   winnerInfoEl.style.display = 'block';
@@ -174,6 +188,15 @@ function revealWinnerInstant(winner, index) {
   const badgeNum = document.getElementById('sorteo-number');
 
   badgeNum.textContent = index + 1;
+
+  // Set page background based on prize type
+  document.body.classList.remove('bg-viaje', 'bg-tablet');
+  if (winner.prize.toLowerCase().includes('viaje')) {
+    document.body.classList.add('bg-viaje');
+  } else {
+    document.body.classList.add('bg-tablet');
+  }
+
   spinnerEl.style.display = 'none';
   winnerInfoEl.style.display = 'block';
 
@@ -249,6 +272,9 @@ function showWinnersList() {
   const btn = document.getElementById('next-btn');
 
   btn.style.display = 'none';
+
+  // HIDE SVG DECORATIONS during the final winners list
+  document.body.classList.remove('bg-viaje', 'bg-tablet');
 
   listContainer.classList.remove('hidden');
 

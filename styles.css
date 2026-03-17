@@ -561,6 +561,101 @@ body::before {
   z-index: 1;
 }
 
+/* Prize-specific decorations */
+.prize-decor {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 6 positions around the viewport */
+.decor-pos-1 {
+  top: 8%;
+  left: 20px;
+  width: 160px;
+  height: 160px;
+}
+
+.decor-pos-2 {
+  top: 45%;
+  left: 15px;
+  width: 180px;
+  height: 180px;
+  transform: rotate(-10deg);
+}
+
+.decor-pos-3 {
+  bottom: 8%;
+  left: 30px;
+  width: 140px;
+  height: 140px;
+  transform: rotate(5deg);
+}
+
+.decor-pos-4 {
+  top: 10%;
+  right: 20px;
+  width: 150px;
+  height: 150px;
+  transform: scaleX(-1);
+}
+
+.decor-pos-5 {
+  top: 48%;
+  right: 10px;
+  width: 200px;
+  height: 200px;
+  transform: scaleX(-1) rotate(8deg);
+}
+
+.decor-pos-6 {
+  bottom: 10%;
+  right: 25px;
+  width: 140px;
+  height: 140px;
+  transform: scaleX(-1) rotate(-5deg);
+}
+
+.decor-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  color: var(--blue-glow);
+}
+
+/* Show the correct decoration based on body class */
+body.bg-viaje .decor-viaje {
+  opacity: 0.2;
+  animation: decorFloat 3s ease-in-out infinite;
+}
+
+body.bg-tablet .decor-tablet {
+  opacity: 0.2;
+  animation: decorFloat 3s ease-in-out infinite;
+}
+
+/* Stagger the animation delays for a natural feel */
+.decor-pos-1 .decor-svg { animation-delay: 0s !important; }
+.decor-pos-2 .decor-svg { animation-delay: 0.5s !important; }
+.decor-pos-3 .decor-svg { animation-delay: 1.0s !important; }
+.decor-pos-4 .decor-svg { animation-delay: 0.3s !important; }
+.decor-pos-5 .decor-svg { animation-delay: 0.8s !important; }
+.decor-pos-6 .decor-svg { animation-delay: 1.3s !important; }
+
+@keyframes decorFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
 .winner-card.animate-in {
   animation: cardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
