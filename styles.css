@@ -174,7 +174,8 @@ body::before {
 }
 
 .cover-logo {
-  height: 200px;
+  height: 280px;
+  /* Increased size */
   width: auto;
   filter: drop-shadow(0 4px 20px rgba(0, 85, 155, 0.15));
   animation: coverLogoFloat 3s ease-in-out infinite;
@@ -382,7 +383,8 @@ body::before {
 }
 
 .logo-container img {
-  height: 130px;
+  height: 180px;
+  /* Increased size */
   width: auto;
   filter: drop-shadow(0 2px 10px rgba(0, 85, 155, 0.12));
   transition: transform 0.3s ease;
@@ -1034,33 +1036,23 @@ body.bg-tablet .decor-tablet {
 /* Dynamic Flex Layout for preventing overlap automatically */
 .main-container.final-layout-active {
   display: flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
+  /* Changed to column to match screenshot */
   align-items: center;
-  justify-content: center;
-  gap: 30px;
-  padding: 10px 40px;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 20px;
   width: 100% !important;
-  max-width: 100% !important;
-  height: 100vh;
+  max-width: 1200px !important;
   min-height: 100vh;
-  overflow: hidden;
-  margin: 0;
+  overflow-y: auto;
+  margin: 0 auto;
 }
 
 /* Modifiers for the header when showing the final list */
 .header.header-final-list {
-  position: static;
-  transform: none;
-  padding: 0;
-  width: auto;
-  z-index: 100;
-  flex: 0 0 30%;
-  display: flex;
-  justify-content: center;
-}
-
-.header.header-final-list .date-display {
-  display: none !important; /* Totalmente oculto en la final */
+  display: none !important;
+  /* Hide original header logo in final list */
 }
 
 .header.header-final-list .logo-container img {
@@ -1077,11 +1069,30 @@ body.bg-tablet .decor-tablet {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   animation: listReveal 0.8s ease forwards;
   position: relative;
   z-index: 20;
-  margin-top: -40px; /* SHIFT UP as requested */
+}
+
+.winners-list-top-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.final-logo {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 15px rgba(0, 85, 255, 0.2));
+}
+
+.logo-30-anos {
+  height: 160px; /* Made noticeably larger */
 }
 
 .winners-list-title {
@@ -1089,7 +1100,8 @@ body.bg-tablet .decor-tablet {
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--blue-dark);
-  margin-bottom: 10px; /* Tighter */
+  margin-bottom: 10px;
+  /* Tighter */
   text-align: center;
   position: relative;
 }
@@ -1129,6 +1141,7 @@ body.bg-tablet .decor-tablet {
     opacity: 0;
     transform: translateX(-25px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1140,6 +1153,7 @@ body.bg-tablet .decor-tablet {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1209,6 +1223,7 @@ body.bg-tablet .decor-tablet {
   .header.header-final-list .logo-container img {
     max-height: 160px;
   }
+
   .winners-list-title {
     font-size: 1.8rem;
     margin-bottom: 10px;
@@ -1226,7 +1241,7 @@ body.bg-tablet .decor-tablet {
     justify-content: flex-start;
     gap: 15px;
   }
-  
+
   .header.header-final-list {
     margin-bottom: 5px;
   }
@@ -1256,38 +1271,38 @@ body.bg-tablet .decor-tablet {
     padding: 20px 15px;
     gap: 15px;
   }
-  
+
   .main-container:not(.final-layout-active) .logo-container img {
     height: 80px;
   }
-  
+
   .date-display {
     font-size: 0.85rem;
   }
-  
+
   .winner-name {
     font-size: 2rem;
   }
-  
+
   .winner-card {
     padding: 30px 20px 25px;
   }
-  
+
   .next-btn {
     padding: 14px 40px;
     font-size: 1rem;
   }
-  
+
   .cover-title {
     font-size: 2.5rem;
   }
-  
+
   .cover-logo {
     height: 100px;
   }
-  
+
   .cover-btn {
     padding: 16px 40px;
     font-size: 1.1rem;
   }
-}
+}
