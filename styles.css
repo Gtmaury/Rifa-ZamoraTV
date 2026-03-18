@@ -1040,8 +1040,10 @@ body.bg-tablet .decor-tablet {
   /* Changed to column to match screenshot */
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
-  padding: 20px;
+  gap: 0;
+  /* Removed gap */
+  padding: 0 20px;
+  /* Removed top/bottom padding */
   width: 100% !important;
   max-width: 1200px !important;
   min-height: 100vh;
@@ -1080,7 +1082,9 @@ body.bg-tablet .decor-tablet {
   justify-content: center;
   align-items: center;
   gap: 40px;
-  margin-bottom: 20px;
+  margin-top: -50px;
+  margin-bottom: -50px;
+  /* Negative margin to pull title up */
   width: 100%;
 }
 
@@ -1092,7 +1096,8 @@ body.bg-tablet .decor-tablet {
 }
 
 .logo-30-anos {
-  height: 160px; /* Made noticeably larger */
+  height: 280px;
+  /* Even larger as requested */
 }
 
 .winners-list-title {
@@ -1100,8 +1105,9 @@ body.bg-tablet .decor-tablet {
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--blue-dark);
-  margin-bottom: 10px;
-  /* Tighter */
+  margin-top: 0;
+  margin-bottom: 0px;
+  /* Minimized margin below title */
   text-align: center;
   position: relative;
 }
@@ -1257,6 +1263,20 @@ body.bg-tablet .decor-tablet {
     margin-bottom: 10px;
   }
 
+  .winners-list-top-logos {
+    gap: 15px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+  }
+
+  .final-logo {
+    height: 60px;
+  }
+
+  .logo-30-anos {
+    height: 150px;
+  }
+
   .winners-list {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -1273,7 +1293,7 @@ body.bg-tablet .decor-tablet {
   }
 
   .main-container:not(.final-layout-active) .logo-container img {
-    height: 80px;
+    height: 120px; /* Increased from 80px */
   }
 
   .date-display {
@@ -1298,7 +1318,7 @@ body.bg-tablet .decor-tablet {
   }
 
   .cover-logo {
-    height: 100px;
+    height: 180px; /* Increased from 100px */
   }
 
   .cover-btn {
