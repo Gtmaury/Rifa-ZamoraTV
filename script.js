@@ -20,9 +20,9 @@ const winners = [
   { name: 'Camila Ruiz', ci: 'V-23.887.665', city: 'Santa Elena', prize: 'Tablet TCL' },
   { name: 'Javier Morales', ci: 'V-16.333.222', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
   // Finally, the 3 trip winners
-  { name: 'María González', ci: 'V-18.456.789', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
-  { name: 'Carlos Mendoza', ci: 'V-22.789.012', city: 'San Felix', prize: 'Viaje a Margarita' },
-  { name: 'Luis Pérez', ci: 'V-14.567.890', city: 'Upata', prize: 'Viaje a Margarita' }
+  { name: 'Zuleika Jose Torrealba Tarrio', ci: 'V-20.078.873', city: 'Ciudad Bolivar', prize: 'Viaje a Margarita' },
+  { name: 'Roxana Valdez', ci: 'V-20.882.488', city: 'San Felix', prize: 'Viaje a Margarita' },
+  { name: 'Merkis Jose Jaramillo Leon', ci: 'V-9.912.529', city: 'Upata', prize: 'Viaje a Margarita' }
 ];
 
 let currentIndex = 0;
