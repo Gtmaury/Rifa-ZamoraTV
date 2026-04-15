@@ -5,20 +5,19 @@
 
 // Winners data
 const winners = [
-  // The 13 tablet winners first
-  { name: 'Lucía Fernández', codigo: '00000000001', city: 'Guasipati', prize: 'Tablet TCL' },
-  { name: 'Ana Martínez', codigo: '00000000002', city: 'Tumeremo', prize: 'Tablet TCL' },
-  { name: 'Pedro Sánchez', codigo: '00000000003', city: 'Santa Elena', prize: 'Tablet TCL' },
-  { name: 'Laura Gómez', codigo: '00000000004', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
-  { name: 'Kevin Díaz', codigo: '00000000005', city: 'Soledad', prize: 'Tablet TCL' },
-  { name: 'Sofía Romero', codigo: '00000000006', city: 'Core 8', prize: 'Tablet TCL' },
-  { name: 'Diego Torres', codigo: '00000000007', city: 'Caicara del Orinoco', prize: 'Tablet TCL' },
-  { name: 'Valentina Silva', codigo: '00000000008', city: 'Santa Barbara de Barinas', prize: 'Tablet TCL' },
-  { name: 'Andrés López', codigo: '00000000009', city: 'Puerto Ordaz', prize: 'Tablet TCL' },
-  { name: 'Isabella Castro', codigo: '00000000010', city: 'San Felix', prize: 'Tablet TCL' },
-  { name: 'Mateo Herrera', codigo: '00000000011', city: 'Upata', prize: 'Tablet TCL' },
-  { name: 'Camila Ruiz', codigo: '00000000012', city: 'Santa Elena', prize: 'Tablet TCL' },
-  { name: 'Javier Morales', codigo: '00000000013', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
+  // The 12 tablet winners first
+  { name: 'Keisa Urrieta', codigo: '00800004239', city: 'Soledad', prize: 'Tablet TCL' },
+  { name: 'Jose Diaz', codigo: '00400007658', city: 'Santa Elena de Uairen', prize: 'Tablet TCL' },
+  { name: 'Veruzca Cova', codigo: '01110104521', city: 'Maturin', prize: 'Tablet TCL' },
+  { name: 'Paola Zapata', codigo: '00200036230', city: 'Upata', prize: 'Tablet TCL' },
+  { name: 'Norvis Lopez', codigo: '00600025661', city: 'San Felix', prize: 'Tablet TCL' },
+  { name: 'Jonathan Parra', codigo: '00100051610', city: 'Core 8', prize: 'Tablet TCL' },
+  { name: 'Brenda Blanco', codigo: '00500016612', city: 'Santa Barbara de Barinas', prize: 'Tablet TCL' },
+  { name: 'Isamael Gonzalez', codigo: '01000000357', city: 'Caicara del Orinoco', prize: 'Tablet TCL' },
+  { name: 'Thaina Blanco', codigo: '00000001375', city: 'Tumeremo', prize: 'Tablet TCL' },
+  { name: 'Alberto Blanca', codigo: '00100052538', city: 'Puerto Ordaz', prize: 'Tablet TCL' },
+  { name: 'Naileth Gomez', codigo: '00100009024', city: 'Guasipati', prize: 'Tablet TCL' },
+  { name: 'Keinibli Muñoz', codigo: '00300009215', city: 'Bolivar', prize: 'Tablet TCL' },
   // Finally, the 3 trip winners
   { name: 'Braulio Garcia', codigo: '00100000263', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
   { name: 'Roxana Valdez', codigo: '00600021603', city: 'San Felix', prize: 'Viaje a Margarita' },
@@ -293,10 +292,10 @@ function showWinnersList() {
   // Activate Flexbox side-by-side layout on main container
   document.querySelector('.main-container').classList.add('final-layout-active');
 
-  // Reorder for the final list: Trips first (indices 13, 14, 15), then Tablets (0 to 12)
+  // Reorder for the final list: Trips first (indices 12, 13, 14), then Tablets (0 to 11)
   const orderedForList = [
-    winners[13], winners[14], winners[15],
-    ...winners.slice(0, 13)
+    winners[12], winners[13], winners[14],
+    ...winners.slice(0, 12)
   ];
 
   /* 
