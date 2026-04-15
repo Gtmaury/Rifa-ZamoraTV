@@ -89,7 +89,7 @@ function startRaffle() {
     showSpinner();
     setTimeout(() => {
       revealWinner(winners[0], 0);
-    }, 3200);
+    }, 4600);
   }, 600);
 }
 
@@ -255,7 +255,7 @@ function nextSorteo() {
       if (currentIndex >= winners.length - 1) {
         checkCompletion();
       }
-    }, 3200);
+    }, 4600);
   }, 400);
 }
 
