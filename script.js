@@ -20,9 +20,9 @@ const winners = [
   { name: 'Camila Ruiz', codigo: '00000000012', city: 'Santa Elena', prize: 'Tablet TCL' },
   { name: 'Javier Morales', codigo: '00000000013', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
   // Finally, the 3 trip winners
-  { name: 'Braulio Andres Garcia Camargo', codigo: '00100000263', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
+  { name: 'Braulio Garcia', codigo: '00100000263', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
   { name: 'Roxana Valdez', codigo: '00600021603', city: 'San Felix', prize: 'Viaje a Margarita' },
-  { name: 'Merkis Jose Jaramillo Leon', codigo: '00200036791', city: 'Upata', prize: 'Viaje a Margarita' }
+  { name: 'Merkis Jaramillo', codigo: '00200036791', city: 'Upata', prize: 'Viaje a Margarita' }
 ];
 
 let currentIndex = 0;
@@ -308,7 +308,7 @@ function showWinnersList() {
     const item = document.createElement('div');
     item.className = 'winners-list-item';
     item.style.animationDelay = `${i * 0.05}s`;
-    
+
     item.innerHTML = `
       <div class="wl-number">${i + 1}</div>
       <div class="wl-info">
