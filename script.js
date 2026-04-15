@@ -6,23 +6,23 @@
 // Winners data
 const winners = [
   // The 13 tablet winners first
-  { name: 'Lucía Fernández', ci: 'V-20.331.002', city: 'Guasipati', prize: 'Tablet TCL' },
-  { name: 'Ana Martínez', ci: 'V-22.112.334', city: 'Tumeremo', prize: 'Tablet TCL' },
-  { name: 'Pedro Sánchez', ci: 'V-15.678.901', city: 'Santa Elena', prize: 'Tablet TCL' },
-  { name: 'Laura Gómez', ci: 'V-25.432.198', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
-  { name: 'Kevin Díaz', ci: 'V-21.876.543', city: 'Soledad', prize: 'Tablet TCL' },
-  { name: 'Sofía Romero', ci: 'V-26.554.332', city: 'Core 8', prize: 'Tablet TCL' },
-  { name: 'Diego Torres', ci: 'V-19.223.445', city: 'Caicara del Orinoco', prize: 'Tablet TCL' },
-  { name: 'Valentina Silva', ci: 'V-24.667.889', city: 'Santa Barbara de Barinas', prize: 'Tablet TCL' },
-  { name: 'Andrés López', ci: 'V-17.555.666', city: 'Puerto Ordaz', prize: 'Tablet TCL' },
-  { name: 'Isabella Castro', ci: 'V-28.999.000', city: 'San Felix', prize: 'Tablet TCL' },
-  { name: 'Mateo Herrera', ci: 'V-20.444.555', city: 'Upata', prize: 'Tablet TCL' },
-  { name: 'Camila Ruiz', ci: 'V-23.887.665', city: 'Santa Elena', prize: 'Tablet TCL' },
-  { name: 'Javier Morales', ci: 'V-16.333.222', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
+  { name: 'Lucía Fernández', codigo: '00000000001', city: 'Guasipati', prize: 'Tablet TCL' },
+  { name: 'Ana Martínez', codigo: '00000000002', city: 'Tumeremo', prize: 'Tablet TCL' },
+  { name: 'Pedro Sánchez', codigo: '00000000003', city: 'Santa Elena', prize: 'Tablet TCL' },
+  { name: 'Laura Gómez', codigo: '00000000004', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
+  { name: 'Kevin Díaz', codigo: '00000000005', city: 'Soledad', prize: 'Tablet TCL' },
+  { name: 'Sofía Romero', codigo: '00000000006', city: 'Core 8', prize: 'Tablet TCL' },
+  { name: 'Diego Torres', codigo: '00000000007', city: 'Caicara del Orinoco', prize: 'Tablet TCL' },
+  { name: 'Valentina Silva', codigo: '00000000008', city: 'Santa Barbara de Barinas', prize: 'Tablet TCL' },
+  { name: 'Andrés López', codigo: '00000000009', city: 'Puerto Ordaz', prize: 'Tablet TCL' },
+  { name: 'Isabella Castro', codigo: '00000000010', city: 'San Felix', prize: 'Tablet TCL' },
+  { name: 'Mateo Herrera', codigo: '00000000011', city: 'Upata', prize: 'Tablet TCL' },
+  { name: 'Camila Ruiz', codigo: '00000000012', city: 'Santa Elena', prize: 'Tablet TCL' },
+  { name: 'Javier Morales', codigo: '00000000013', city: 'Ciudad Bolivar', prize: 'Tablet TCL' },
   // Finally, the 3 trip winners
-  { name: 'Zuleika Jose Torrealba Tarrio', ci: 'V-20.078.873', city: 'Ciudad Bolivar', prize: 'Viaje a Margarita' },
-  { name: 'Roxana Valdez', ci: 'V-20.882.488', city: 'San Felix', prize: 'Viaje a Margarita' },
-  { name: 'Merkis Jose Jaramillo Leon', ci: 'V-9.912.529', city: 'Upata', prize: 'Viaje a Margarita' }
+  { name: 'Braulio Andres Garcia Camargo', codigo: '00100000263', city: 'Puerto Ordaz', prize: 'Viaje a Margarita' },
+  { name: 'Roxana Valdez', codigo: '00600021603', city: 'San Felix', prize: 'Viaje a Margarita' },
+  { name: 'Merkis Jose Jaramillo Leon', codigo: '00200036791', city: 'Upata', prize: 'Viaje a Margarita' }
 ];
 
 let currentIndex = 0;
@@ -89,7 +89,7 @@ function startRaffle() {
     showSpinner();
     setTimeout(() => {
       revealWinner(winners[0], 0);
-    }, 1800);
+    }, 3200);
   }, 600);
 }
 
@@ -152,7 +152,7 @@ function revealWinner(winner, index) {
   // Set winner data
   nameEl.textContent = winner.name;
   nameEl.setAttribute('data-name', winner.name);
-  ciEl.textContent = `CI: ${winner.ci} | ${winner.city}`;
+  ciEl.textContent = `Cód: ${winner.codigo} | ${winner.city}`;
   prizeEl.textContent = winner.prize;
 
   // Reset and trigger animations
@@ -204,7 +204,7 @@ function revealWinnerInstant(winner, index) {
 
   nameEl.textContent = winner.name;
   nameEl.setAttribute('data-name', winner.name);
-  ciEl.textContent = `CI: ${winner.ci} | ${winner.city}`;
+  ciEl.textContent = `Cód: ${winner.codigo} | ${winner.city}`;
   prizeEl.textContent = winner.prize;
 
   // Show immediately without animations
@@ -255,7 +255,7 @@ function nextSorteo() {
       if (currentIndex >= winners.length - 1) {
         checkCompletion();
       }
-    }, 1800);
+    }, 3200);
   }, 400);
 }
 
@@ -313,7 +313,7 @@ function showWinnersList() {
       <div class="wl-number">${i + 1}</div>
       <div class="wl-info">
         <div class="wl-name">${w.name}</div>
-        <div class="wl-details">${w.ci} | ${w.city}</div>
+        <div class="wl-details">${w.codigo} | ${w.city}</div>
       </div>
       <div class="wl-prize">
         <span class="wl-prize-icon">🏆</span>
